@@ -2,7 +2,7 @@ build:
 	cargo build --release
 
 test:
-	cargo test
+	clear && cargo test --no-fail-fast -- --color always --no-capture
 
 run:
 	cargo run
@@ -15,3 +15,6 @@ lint:
 
 fmt:
 	cargo fmt --check
+
+basic: 
+	cargo run -- 'x^2 + 2x^2 + x - x + 1 - 10  = 0'

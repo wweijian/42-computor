@@ -12,10 +12,11 @@ pub const ERR_EQN: &str = "unexpected character";
 pub const ERR_MAL: &str = "malformed equation";
 pub const ERR_HANG: &str = "hanging operator";
 pub const ERR_DIV_ZERO: &str = "division by zero";
+pub const ERR_BAD_DEG: &str = "incorrect degrees of equation";
 
-pub fn validate(eqn: &str) -> Result<HashMap<i32, Vec<f64>>, String>
+pub fn populate_map(eqn: &str) -> Result<HashMap<i32, f64>, String>
 {
-	let mut map: HashMap<i32, Vec<f64>> = HashMap::new();
+	let mut map: HashMap<i32, f64> = HashMap::new();
 	let mut chars = eqn.chars().peekable();
 
 	if cfg!(debug_assertions) {dbg!(eqn);}
@@ -23,9 +24,7 @@ pub fn validate(eqn: &str) -> Result<HashMap<i32, Vec<f64>>, String>
 		match c {
 			'0'..='9' | '+' | '-' | 'X' | 'x' => {
 				let term = get_indeterminate(&mut chars)?;
-				map.entry(term.0)
-				   .or_insert_with(Vec::new)
-				   .push(term.1);
+				*map.entry(term.0).or_insert(0.0) += term.1
 			}
 			' ' => { chars.next(); }
 			'=' => { break ; }
@@ -33,7 +32,7 @@ pub fn validate(eqn: &str) -> Result<HashMap<i32, Vec<f64>>, String>
 		}
 	}
 	if chars.peek().is_none() {
-		return Ok(map);
+		return is_valid_equation(map);
 	}
 	let remainder: String = chars.clone().collect();
 	dbg!(&remainder);
@@ -42,15 +41,13 @@ pub fn validate(eqn: &str) -> Result<HashMap<i32, Vec<f64>>, String>
 		match c {
 			'0'..='9' | '+' | '-' | 'X' | 'x' => {
 				let term = get_indeterminate(&mut chars)?;
-				map.entry(term.0)
-				   .or_insert_with(Vec::new)
-				   .push(term.1);
+				*map.entry(term.0).or_insert(0.0) -= term.1
 			}
 			' ' => { chars.next(); }
 			_ => { dbg!(); return Err(format!("{ERR_EQN}: '{c}'")); }
 		}
 	}
-	return Ok(map);
+	return is_valid_equation(map);
 }
 
 fn get_indeterminate(chars: &mut Peekable<Chars<'_>>) -> Result<(i32, f64), String>
@@ -81,4 +78,15 @@ fn get_indeterminate(chars: &mut Peekable<Chars<'_>>) -> Result<(i32, f64), Stri
 		}
 	}
 	return Ok((deg, coeff));
+}
+
+fn is_valid_equation(map: HashMap<i32, f64>) -> Result<HashMap<i32, f64>, String>
+{
+	for key in map.keys() {
+		if *key > 2 || *key < 0 {
+			dbg!(*key);
+			return Err(ERR_BAD_DEG.to_string());
+		}
+	}
+	return Ok(map);
 }

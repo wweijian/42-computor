@@ -1,6 +1,8 @@
 mod parse;
+mod solve;
 
 use std::process::ExitCode;
+use solve::solve;
 
 fn main() -> Result<ExitCode, String>
 {
@@ -11,13 +13,7 @@ fn main() -> Result<ExitCode, String>
 		// should take from stdin 
 		std::process::exit(1);
 	}
-	let map = parse::validate(&args[1])?;
+	let mut map = parse::populate_map(&args[1])?;
 	println!("{:#?}", map);
-	if !map.is_empty() {
-		println!("success!");
-		Ok(ExitCode::SUCCESS)
-	} else {
-		println!("failure");
-		Ok(ExitCode::FAILURE)
-	}
+	return solve(&mut map);
 }

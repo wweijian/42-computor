@@ -1,31 +1,6 @@
-use std::process::Command;
+mod run;
 
-fn run(input: &str) -> std::process::Output {
-    Command::new("cargo")
-        .args(["run", "--", input])
-        .output()
-        .expect("failed to run")
-}
-
-fn ok(input: &str) {
-    let output = run(input);
-    assert!(
-        output.status.success(),
-        "expected success for {:?}, got stderr: {}",
-        input,
-        String::from_utf8_lossy(&output.stderr)
-    );
-}
-
-fn fail(input: &str) {
-    let output = run(input);
-    assert!(
-        !output.status.success(),
-        "expected failure for {:?}, but it succeeded\n{}",
-        input,
-        String::from_utf8_lossy(&output.stderr)
-    );
-}
+use run::*;
 
 // ── basic ────────────────────────────────────────────────────────────────────
 
@@ -137,12 +112,6 @@ fn test_division_coefficient() {
 }
 
 #[test]
-fn test_high_degree() {
-    // parser accepts any degree; solver may reject but parse should succeed
-    ok("x^3 + x^2 + x + 1");
-}
-
-#[test]
 fn test_explicit_positive_sign() {
     ok("+x^2 + x + 1");
 }
@@ -167,78 +136,6 @@ fn test_equals_with_terms_both_sides() {
 #[test]
 fn test_equals_both_sides_polynomial() {
     ok("x^2 + x + 1 = x + 2");
-}
-
-// ── failures ─────────────────────────────────────────────────────────────────
-
-#[test]
-fn test_empty_input() {
-    fail("");
-}
-
-#[test]
-fn test_invalid_character() {
-    fail("@x^2 + x + 1");
-}
-
-#[test]
-fn test_double_operator() {
-    fail("x^2 + + x");
-}
-
-#[test]
-fn test_hanging_plus() {
-    fail("x^2 +");
-}
-
-#[test]
-fn test_hanging_minus() {
-    fail("x^2 -");
-}
-
-#[test]
-fn test_division_by_zero() {
-    fail("x / 0");
-}
-
-#[test]
-fn test_double_decimal_point() {
-    fail("1.2.3 * x");
-}
-
-#[test]
-fn test_bare_caret() {
-    fail("x ^ + 1");
-}
-
-#[test]
-fn test_trailing_caret() {
-    fail("x^");
-}
-
-#[test]
-fn test_negative_exponent() {
-    fail("x^-2");
-}
-
-#[test]
-fn test_multiple_equals() {
-    fail("x = 1 = 2");
-}
-
-#[test]
-fn test_leading_multiply() {
-    fail("* x^2");
-}
-
-#[test]
-fn test_leading_divide() {
-    fail("/ x^2");
-}
-
-#[test]
-fn test_whitespace_only() {
-    fail("   ");
 }
 
 /// Leading '=' is treated as an empty LHS; parses the RHS as a valid polynomial.
