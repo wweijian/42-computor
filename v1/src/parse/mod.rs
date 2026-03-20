@@ -17,11 +17,11 @@ pub fn validate(eqn: &str) -> Result<HashMap<i32, Vec<f64>>, String>
 {
 	let mut map: HashMap<i32, Vec<f64>> = HashMap::new();
 	let mut chars = eqn.chars().peekable();
-	
+
 	if cfg!(debug_assertions) {dbg!(eqn);}
 	while let Some(c) = chars.peek() {
 		match c {
-			'0'..='9' | '+' | '-' | 'X' => {
+			'0'..='9' | '+' | '-' | 'X' | 'x' => {
 				let term = get_indeterminate(&mut chars)?;
 				map.entry(term.0)
 				   .or_insert_with(Vec::new)
@@ -35,9 +35,12 @@ pub fn validate(eqn: &str) -> Result<HashMap<i32, Vec<f64>>, String>
 	if chars.peek().is_none() {
 		return Ok(map);
 	}
+	let remainder: String = chars.clone().collect();
+	dbg!(&remainder);
+	chars.next();
 	while let Some(c) = chars.peek() {
 		match c {
-			'0'..='9' | '+' | '-' | 'X' => {
+			'0'..='9' | '+' | '-' | 'X' | 'x' => {
 				let term = get_indeterminate(&mut chars)?;
 				map.entry(term.0)
 				   .or_insert_with(Vec::new)
@@ -57,7 +60,6 @@ fn get_indeterminate(chars: &mut Peekable<Chars<'_>>) -> Result<(i32, f64), Stri
 	let mut div = false;
 
 	while let Some(c) = chars.peek() {
-		dbg!(*c);
 		match c {
 			'0'..='9' => {
 				coeff *= get_coeff(chars, div)?;

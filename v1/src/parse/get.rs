@@ -9,7 +9,7 @@ pub fn get_coeff(chars: &mut Peekable<Chars<'_>>, div: bool) -> Result<f64, Stri
 	let mut	s = String::new();
 	let mut dec = false;
 	let coeff: f64;
-
+	
 	while let Some(c) = chars.peek() {
 		if dec && *c == '.' { dbg!(c); return Err(format!("{ERR_EQN}: '{c}'")); }
 		else if *c == '.' { dec = true; }
@@ -21,6 +21,7 @@ pub fn get_coeff(chars: &mut Peekable<Chars<'_>>, div: bool) -> Result<f64, Stri
 	}
 	coeff = s.parse::<f64>().map_err(|e| e.to_string())?;
 	if div {
+		dbg!("div by zero");
 		if coeff == 0.0 { dbg!(); return Err(ERR_DIV_ZERO.to_string()); }
 		return Ok(1.0 / coeff);
 	} else {
@@ -34,7 +35,7 @@ pub fn get_deg(chars: &mut Peekable<Chars<'_>>, div: bool, deg: i32) -> Result<i
 	while let Some(c) = chars.peek() {
 		match c {
 			' ' => { chars.next(); continue; }
-			'+' | '-' | '*' | '/' => { return Ok(deg + 1) }
+			'+' | '-' | '*' | '/' | '=' => { return Ok(deg + 1) }
 			'^' => { return get_deg_val(chars, div, deg); }
 			_ => { dbg!(c); return Err(format!("{ERR_EQN}: '{c}'")) }
 		}
@@ -88,8 +89,8 @@ pub fn get_polarity (chars: &mut Peekable<Chars<'_>>) -> Result<f64, String>
 pub fn get_reciprocal(chars: &mut Peekable<Chars<'_>>) -> Result<bool, String>
 {
 	let reciprocal = match chars.peek() {
-		Some('*') => true,
-		_ => false,
+		Some('*') => false,
+		_ => true,
 	};
 	chars.next();
 	skip_space(chars);

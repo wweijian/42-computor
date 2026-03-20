@@ -8,7 +8,7 @@ pub fn is_end_term(c: Option<&char>) -> bool
 
 pub fn is_operation(c: Option<&char>) -> bool
 {
-	return matches!(c, Some('+') | Some('-') | Some('*') | Some('/'));
+	return matches!(c, Some('+') | Some('-') | Some('*') | Some('/') | Some('='));
 }
 
 pub fn is_end(c: Option<&char>) -> bool
