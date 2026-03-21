@@ -75,13 +75,17 @@ fn general_formula(a: f64, b: f64, c: f64, d: f64) -> Solution
 fn fractional_output(a: f64, b: f64, d: f64, one: bool) -> Solution
 {
 	let numer1 = if d.sqrt() == d.sqrt().floor() {
-		format!(" {} ", -b + d.sqrt())
+		format!(" {:.3} ", -b + d.sqrt())
 	} else {
-		format!(" {} + √{d} ", -b);
+		format!(" {:.3} + √{d} ", -b);
 	}
 	let width = numer1.len();
 	let line = format!("{}", "-".repeat(width));
-	let denom = format!("{}", 2 .0 * a);
+	let denom1 = format!("{:^width$.3}", 2 .0 * a);
+	let soln1 = numer1 + "\n" + line + "\n" + denom1;
+	if one == false {
+		
+	}
 }
 
 fn make_fraction(a: f64, b: f64, d: f64) -> Solution
