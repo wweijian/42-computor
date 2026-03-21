@@ -1,8 +1,19 @@
 use crate::solve::Solution;
 use crate::solve::Solution::*;
 
-pub fn print_poly(a: f64, b: f64, c: f64) {
-	dbg!();
+pub fn print_degree(a: f64, b:f64, c:f64) -> ()
+{
+	if a != 0.0 {
+		println!("Degree: 2");
+	} else if b != 0.0 {
+		println!("Degree: 1");
+	} else {
+		println!("Degree: 0");
+	}
+}
+
+pub fn print_poly(a: f64, b: f64, c: f64) -> ()
+{
 	let v = vec!(a, b, c);
 	let mut parts: Vec<String> = vec![];
 	for (degree, coeff) in v.into_iter().enumerate() {
@@ -55,4 +66,9 @@ pub fn print_solution(soln: Solution) -> ()
 			println!("X has infinite number of solutions");
 		}
 	}
+}
+
+pub fn print_discriminant(d: f64) -> ()
+{
+	println!("discriminant: {d}");
 }

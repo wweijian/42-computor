@@ -12,6 +12,8 @@ pub enum Solution {
 	One(f64),
 	Two(f64, f64),
 	Inff,
+	FOne(String),
+	FTwo(String, String),
 }
 
 use Solution::*;
@@ -19,6 +21,7 @@ use Solution::*;
 pub fn solve (map: &mut HashMap<i32, f64>) -> Result<ExitCode, String>
 {
 	let (a, b, c) = get_eqn_values(map);
+	print_degree(a,b,c);
 	print_poly(a, b, c);
 	let discriminant = b * b - 4.0 * a * c;
 	if a == 0.0 && b == 0.0 && c == 0.0 {
@@ -28,9 +31,10 @@ pub fn solve (map: &mut HashMap<i32, f64>) -> Result<ExitCode, String>
 	} else if a == 0.0 && b == 0.0 && c != 0.0 {
 		print_solution(NoSoln);
 	} else if a == 0.0 && b != 0.0 {
-		print_solution(solve_linear(b, c))
+		print_solution(solve_linear(b, c));
 	} else {
-		print_solution(general_formula(a, b, c, discriminant))
+		print_solution(general_formula(a, b, c, discriminant));
+		print_discriminant(discriminant);
 	}
 	return Ok(ExitCode::SUCCESS);
 }
@@ -55,9 +59,33 @@ fn general_formula(a: f64, b: f64, c: f64, d: f64) -> Solution
 	if a == 0.0 { panic!("a is 0") };
 	let x1 = (-b + pos) / (2.0 * a);
 	let x2 = (-b + neg) / (2.0 * a);
+	#[cfg(feature = "fraction")]
+	{
+		if x1 == x2 {
+			return fractional_output(a, b, discriminant, x1 == x2);
+		}
+	}
 	if x1 == x2 {
 		return One(x1);
 	} else {
 		return Two(x1, x2);
 	}
+}
+
+fn fractional_output(a: f64, b: f64, d: f64, one: bool) -> Solution
+{
+	let numer1 = if d.sqrt() == d.sqrt().floor() {
+		format!(" {} ", -b + d.sqrt())
+	} else {
+		format!(" {} + √{d} ", -b);
+	}
+	let width = numer1.len();
+	let line = format!("{}", "-".repeat(width));
+	let denom = format!("{}", 2 .0 * a);
+}
+
+fn make_fraction(a: f64, b: f64, d: f64) -> Solution
+{
+	
+
 }
