@@ -9,11 +9,11 @@ pub fn print_poly(a: f64, b: f64, c: f64) {
 		if coeff == 0.0 {
 			continue ;
 		} else if parts.is_empty() {
-			parts.push(format!("{}{}", coeff, resolve_x(degree)));
+			parts.push(format!("{}{}", resolve_coeff(coeff), resolve_x(degree)));
 		} else if coeff < 0.0 {
-			parts.push(format!("- {}{}", (coeff).abs(), resolve_x(degree)));
+			parts.push(format!("- {}{}", resolve_coeff((coeff).abs()), resolve_x(degree)));
 		} else {
-			parts.push(format!("+ {}{}", coeff, resolve_x(degree)));
+			parts.push(format!("+ {}{}", resolve_coeff(coeff), resolve_x(degree)));
 		}
 	}
 	println!("{}", parts.join(" "));
@@ -25,6 +25,15 @@ fn resolve_x (degree: usize) -> String
 		return "".to_string();
 	}
 	return format!("x^{}", degree);
+}
+
+fn resolve_coeff (coeff: f64) -> String
+{
+	if coeff == 1.0 {
+		return "".to_string();
+	} else {
+		return format!("{}", coeff);
+	}
 }
 
 pub fn print_solution(soln: Solution) -> ()
@@ -40,7 +49,7 @@ pub fn print_solution(soln: Solution) -> ()
 			println!("X has one solution: {x}");
 		}
 		Two(x1, x2) => {
-			println!("X has two solution: {x1} {x2}");
+			println!("X has two solution: {x1} and {x2}");
 		}
 		Inff => {
 			println!("X has infinite number of solutions");

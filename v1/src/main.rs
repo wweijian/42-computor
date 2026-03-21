@@ -1,8 +1,6 @@
-mod parse;
-mod solve;
-
 use std::process::ExitCode;
-use solve::solve;
+use computor_v1::parse;
+use computor_v1::solve::solve;
 
 fn main() -> Result<ExitCode, String>
 {

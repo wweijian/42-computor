@@ -37,9 +37,9 @@ pub fn solve (map: &mut HashMap<i32, f64>) -> Result<ExitCode, String>
 
 fn get_eqn_values(map: &HashMap<i32, f64>) -> (f64, f64, f64)
 {
-	return (map.get(&0).copied().unwrap_or(0.0),
+	return (map.get(&2).copied().unwrap_or(0.0),
 			map.get(&1).copied().unwrap_or(0.0),
-			map.get(&2).copied().unwrap_or(0.0));
+			map.get(&0).copied().unwrap_or(0.0));
 }
 
 fn solve_linear(b: f64, c: f64) -> Solution

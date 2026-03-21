@@ -53,7 +53,7 @@ pub fn get_deg_val(chars: &mut Peekable<Chars<'_>>, div: bool, mut deg: i32) -> 
 		match c {
 			'0'..='9' => { s.push(*c); }
 			' ' => {}
-			'+' | '-' | '*' | '/' => { deg += s.parse::<i32>().map_err(|e| e.to_string())?; return Ok(deg); }
+			'+' | '-' | '*' | '/' | '=' => { deg += s.parse::<i32>().map_err(|e| e.to_string())?; return Ok(deg); }
 			_ => { dbg!(c); return Err(format!("{ERR_EQN}: '{c}'")) }
 		}
 		chars.next();

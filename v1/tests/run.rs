@@ -47,3 +47,15 @@ pub fn fail(input: &str) {
         String::from_utf8_lossy(&output.stderr)
     );
 }
+
+pub fn stdout_contains(input: &str, expected: &str) {
+    let output = run(input);
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    assert!(
+        stdout.contains(expected),
+        "expected stdout to contain {:?} for input {:?}, got:\n{}",
+        expected,
+        input,
+        stdout
+    );
+}
