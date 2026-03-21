@@ -81,11 +81,18 @@ fn fractional_output(a: f64, b: f64, d: f64, one: bool) -> Solution
 	}
 	let width = numer1.len();
 	let line = format!("{}", "-".repeat(width));
-	let denom1 = format!("{:^width$.3}", 2 .0 * a);
-	let soln1 = numer1 + "\n" + line + "\n" + denom1;
-	if one == false {
-		
+	let denom = format!("{:^width$.3}", 2 .0 * a);
+	let soln1 = numer1 + "\n" + line + "\n" + denom;
+	if one == true {
+		return FOne(soln1);
+	let numer2 = if d.sqrt() == d.sqrt().floor() {
+			format!(" {:.3} ", -b - d.sqrt())
+		} else {
+			format!(" {:.3} - √{d} ", -b);
+		} 
 	}
+	soln2 = numer2 + "\n" + line + "\n" + denom;
+	return FTwo(soln1, soln2);
 }
 
 fn make_fraction(a: f64, b: f64, d: f64) -> Solution
