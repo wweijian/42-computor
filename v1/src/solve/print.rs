@@ -56,10 +56,10 @@ pub fn print_solution(soln: Solution) -> ()
 		NoSoln => {
 			println!("X has no solutions");
 		}
-		One(x) => {
+		One(x) | FOne(x)=> {
 			println!("X has one solution: {x}");
 		}
-		Two(x1, x2) => {
+		Two(x1, x2) | FTwo(x1, x2) => {
 			println!("X has two solution: {x1} and {x2}");
 		}
 		Inff => {

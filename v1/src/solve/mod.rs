@@ -94,9 +94,3 @@ fn fractional_output(a: f64, b: f64, d: f64, one: bool) -> Solution
 	soln2 = numer2 + "\n" + line + "\n" + denom;
 	return FTwo(soln1, soln2);
 }
-
-fn make_fraction(a: f64, b: f64, d: f64) -> Solution
-{
-	
-
-}
