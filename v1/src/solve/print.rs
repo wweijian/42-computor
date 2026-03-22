@@ -1,7 +1,7 @@
 use crate::solve::Solution;
 use crate::solve::Solution::*;
 
-pub fn print_degree(a: f64, b:f64, c:f64) -> ()
+pub fn print_degree(a: f64, b:f64, c:f64)
 {
 	if a != 0.0 {
 		println!("Degree: 2");
@@ -12,7 +12,7 @@ pub fn print_degree(a: f64, b:f64, c:f64) -> ()
 	}
 }
 
-pub fn print_poly(a: f64, b: f64, c: f64) -> ()
+pub fn print_poly(a: f64, b: f64, c: f64)
 {
 	let v = vec!(a, b, c);
 	let mut parts: Vec<String> = vec![];
@@ -36,19 +36,19 @@ fn resolve_x (degree: usize) -> String
 	if degree == 2 {
 		return "".to_string();
 	}
-	return format!("x^{}", 2 - degree);
+	format!("x^{}", 2 - degree)
 }
 
 fn resolve_coeff (coeff: f64, degree: usize) -> String
 {
 	if coeff == 1.0 && degree != 2 {
-		return "".to_string();
+		"".to_string()
 	} else {
-		return format!("{}", coeff);
+		format!("{}", coeff)
 	}
 }
 
-pub fn print_solution(soln: Solution) -> ()
+pub fn print_solution(soln: Solution)
 {
 	match soln {
 		NoReal => {
@@ -75,7 +75,7 @@ pub fn print_solution(soln: Solution) -> ()
 	}
 }
 
-pub fn print_discriminant(d: f64) -> ()
+pub fn print_discriminant(d: f64)
 {
 	println!("discriminant: {d}");
 }

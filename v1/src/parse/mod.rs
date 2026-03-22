@@ -47,7 +47,7 @@ pub fn populate_map(eqn: &str) -> Result<HashMap<i32, f64>, String>
 			_ => { dbg!(); return Err(format!("{ERR_EQN}: '{c}'")); }
 		}
 	}
-	return is_valid_equation(map);
+	is_valid_equation(map)
 }
 
 fn get_indeterminate(chars: &mut Peekable<Chars<'_>>) -> Result<(i32, f64), String>
@@ -77,7 +77,7 @@ fn get_indeterminate(chars: &mut Peekable<Chars<'_>>) -> Result<(i32, f64), Stri
 			_ => {dbg!(); return Err(format!("{ERR_EQN}: '{c}'"))}
 		}
 	}
-	return Ok((deg, coeff));
+	Ok((deg, coeff))
 }
 
 fn is_valid_equation(map: HashMap<i32, f64>) -> Result<HashMap<i32, f64>, String>
@@ -88,5 +88,5 @@ fn is_valid_equation(map: HashMap<i32, f64>) -> Result<HashMap<i32, f64>, String
 			return Err(ERR_BAD_DEG.to_string());
 		}
 	}
-	return Ok(map);
+	Ok(map)
 }

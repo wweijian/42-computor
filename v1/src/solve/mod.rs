@@ -31,12 +31,12 @@ pub fn solve (map: &mut HashMap<i32, f64>) -> Result<ExitCode, String>
 		print_solution(general_formula(a, b, c, discriminant));
 		print_discriminant(discriminant);
 	}
-	return Ok(ExitCode::SUCCESS);
+	Ok(ExitCode::SUCCESS)
 }
 
 fn solve_linear(b: f64, c: f64) -> Solution
 {
-	return One(c / b * -1.0);
+	One(-(c / b))
 }
 
 fn general_formula(a: f64, b: f64, c: f64, d: f64) -> Solution
@@ -52,9 +52,9 @@ fn general_formula(a: f64, b: f64, c: f64, d: f64) -> Solution
 	#[cfg(not(feature = "fraction"))]
 	{
 		if x1 == x2 {
-			return One(x1);
+			One(x1)
 		} else {
-			return Two(x1, x2);
+			Two(x1, x2)
 		}
 	}
 }

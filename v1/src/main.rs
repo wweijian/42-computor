@@ -13,5 +13,5 @@ fn main() -> Result<ExitCode, String>
 	}
 	let mut map = parse::populate_map(&args[1])?;
 	println!("{:#?}", map);
-	return solve(&mut map);
+	solve(&mut map)
 }
