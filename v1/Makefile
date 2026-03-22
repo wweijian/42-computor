@@ -1,3 +1,6 @@
+docker-run:
+	docker build -t computor-env . && docker run -it -v $(PWD):/home/rustuser/app computor-env
+
 build:
 	cargo build --release
 
